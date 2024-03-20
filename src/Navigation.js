@@ -1,0 +1,338 @@
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import LoginScreen from './scenes/LoginScreen';
+import OnlineRegistration from './scenes/Registration/OnlineRegistration/OnlineRegistration';
+import OnlineRegOTP from './scenes/Registration/OnlineRegistration/OnlineRegOTP'
+import OfflineRegistration from './scenes/Registration/OfflineRegistration/OfflineRegistration';
+import BankingHomeScreen from './scenes/Dashboard/BankingHomeScreen';
+import BottomNavigatorr from './scenes/Dashboard/BottomNavigator';
+import ExistingUserLogin from './scenes/ExistingUser/ExistingUserLogin';
+import RegisterModeScreen from './scenes/RegisterModeScreen';
+import SideProfileScreen from './scenes/SideProfileScreen';
+import LoginTypeSelectScreen from './scenes/LoginTypeSelectScreen';
+import RegistrationSuccess from './scenes/Registration/RegistrationSuccess';
+import MpinAndPasswordCreation from './scenes/Registration/OnlineRegistration/MpinAndPasswordCreation';
+const { Navigator, Screen } = createStackNavigator();
+import {
+  connect,
+  mapStateToProps,
+  mapDispatchToProps,
+} from './App';
+import SplashScreen from './scenes/Launch/SplashScreen';
+import StartScreen from './scenes/Launch/StartScreen';
+import LoginType from './scenes/Launch/LoginType';
+import { Platform, StatusBar } from 'react-native';
+import ExistingUserOtpConfirmation from './scenes/ExistingUser/ExistingUserOtpConfirmation';
+import ExistingUserLoginSuccess from './scenes/ExistingUser/ExistingUserLoginSuccess';
+import QuickPayScreen from './scenes/QuickPay/QuickPayScreen';
+import OfflineFormStepHeader from './scenes/Registration/OfflineRegistration/OfflineFormStepHeader';
+import OnlineFormStepHeader from './scenes/Registration/OnlineRegistration/OnlineFormStepHeader';
+import MainLogin from './scenes/MainLogin';
+import CreateMpin from './scenes/Registration/CreateMpin';
+import MyAccountList from './scenes/Dashboard/MyAccount/MyAccountList';
+import CameraPermission from './scenes/ProminentDisclosure/CameraPermission';
+import LocationPermission from './scenes/ProminentDisclosure/LocationPermission';
+import StoragePermission from './scenes/ProminentDisclosure/StoragePermission';
+import ContactPermission from './scenes/ProminentDisclosure/ContactPermission';
+import RecordAudioPermission from './scenes/ProminentDisclosure/RecordAudioPermission';
+import DeviceInfoPemission from './scenes/ProminentDisclosure/DeviceInfoPemission';
+import QuickPayOwnAccTransfer from './scenes/QuickPay/QuickPayOwnAccTransfer';
+import MyAccDetails from './scenes/Dashboard/MyAccount/MyAccDetails';
+import MyAccMiniStatement from './scenes/Dashboard/MyAccount/MyAccMiniStatement';
+import ChangeOrSetPassward from './scenes/FingurePrintSetup/ChangeOrSetPassward';
+import LoginWithFingurePrint from './scenes/FingurePrintSetup/LoginWithFingurePrint';
+import EnableFingurePrint from './scenes/FingurePrintSetup/EnableFingurePrint';
+import SetFingurePrint from './scenes/FingurePrintSetup/SetFingurePrint';
+import QuickPayMpin from './scenes/QuickPay/QuickPayMpin';
+import OTPForFundTransfer from './scenes/QuickPay/OTPForFundTransfer';
+import MyAccountDownloadStatement from './scenes/Dashboard/MyAccount/MyAccountDownloadStatement';
+import NewDepositAccountOpening from './scenes/Dashboard/Deposit/NewDepositAccountOpening';
+import InterestRates from './scenes/Dashboard/Deposit/InterestRates';
+import MpassBook from './scenes/Dashboard/MyAccount/MpassBook';
+import DepositAddNominee from './scenes/Dashboard/Deposit/DepositAddNominee';
+import DepositSelectModeOfOperation from './scenes/Dashboard/Deposit/DepositSelectModeOfOperation';
+import DepositReviewFD from './scenes/Dashboard/Deposit/DepositReviewFD';
+import DepositOpenAccount from './scenes/Dashboard/Deposit/DepositOpenAccount';
+import QuickPayWithinBankOtherAccount from './scenes/QuickPay/QuickPayWithinBankOtherAccount';
+import DepositOtp from './scenes/Dashboard/Deposit/DepositOtp';
+import DepositSuccess from './scenes/Dashboard/Deposit/DepositSuccess';
+import MyAccountMiniStatement from './scenes/Dashboard/MyAccount/MyAccountMiniStatement';
+import DownloadStatement from './scenes/Dashboard/MyAccount/DownloadStatement';
+import MpinSuccess from './scenes/Registration/MpinSuccess';
+import MpinFail from './scenes/Registration/MpinFail';
+import FundTransferSucess from './scenes/QuickPay/FundTransferSucess';
+import ForgetPassword from './scenes/ForgetPassword/ForgetPassword';
+import OnlineRegistrationSuccess from './scenes/Registration/OnlineRegistration/OnlineRegistrationSuccess';
+
+import FundTransfer from './scenes/Dashboard/FundTransfer/SameBankOther/FundTransfer';
+import FundTransferMpin from './scenes/Dashboard/FundTransfer/SameBankOther/FundTransferMpin';
+import FundTransferSameBankSuccess from './scenes/Dashboard/FundTransfer/SameBankOther/FundTransferSameBankSuccess';
+import AddBeneficiary from './scenes/Dashboard/FundTransfer/SameBankOther/AddBeneficiary';
+import VerifyBeneficiary from './scenes/Dashboard/FundTransfer/SameBankOther/VerifyBeneficiary';
+import EditBeneficiary from './scenes/Dashboard/FundTransfer/SameBankOther/EditBeneficiary';
+import ForgetPasswordOTP from './scenes/ForgetPassword/ForgetPasswordOTP';
+import FundTransferWithOtherAcc from './scenes/Dashboard/FundTransfer/SameBankOther/FundTransferWithOtherAcc';
+import ForgetPasswordVerify from './scenes/ForgetPassword/ForgetPasswordVerify';
+import RegistrationFail from './scenes/Registration/RegistrationFail';
+import ForgetMpin from './scenes/ForgetPassword/ForgetMpin';
+import ForgetChangeMpin from './scenes/ForgetPassword/ForgetChangeMpin';
+import Prepaid from './scenes/Dashboard/RechargeAndBillPay/Prepaid';
+import RechargeOffers from './scenes/Dashboard/RechargeAndBillPay/RechargeOffers';
+import FundTransferOtp from './scenes/Dashboard/FundTransfer/SameBankOther/FundTransferOtp';
+import RechargePay from './scenes/Dashboard/RechargeAndBillPay/RechargePay';
+import PrepaidRechargeSuccess from './scenes/Dashboard/RechargeAndBillPay/PrepaidRechargeSuccess';
+import RechargeHistory from './scenes/Dashboard/RechargeAndBillPay/RechargeHistory';
+import OfflineRegistrationSuccess from './scenes/Registration/OfflineRegistration/OfflineRegistrationSuccess';
+import OfflineOtpScreen from './scenes/Registration/OfflineRegistration/OfflineOtpScreen';
+import PostpaidScreen from './scenes/Dashboard/RechargeAndBillPay/PostpaidScreen';
+import PostpaidBillPayment from './scenes/Dashboard/RechargeAndBillPay/PostpaidBillPayment';
+import PostpaidBillPaySuccess from './scenes/Dashboard/RechargeAndBillPay/PostpaidBillPaySuccess';
+import DTHHomeScreen from './scenes/Dashboard/RechargeAndBillPay/DTH/DTHHomeScreen';
+import DTHBillPayment from './scenes/Dashboard/RechargeAndBillPay/DTH/DTHBillPayment';
+import DTHRechargeSuccess from './scenes/Dashboard/RechargeAndBillPay/DTH/DTHRechargeSuccess';
+import LandlineBill from './scenes/Dashboard/RechargeAndBillPay/Landline/LandlineBill';
+import LandlineBillPayment from './scenes/Dashboard/RechargeAndBillPay/Landline/LandlineBillPayment';
+import LandlineBillSuccess from './scenes/Dashboard/RechargeAndBillPay/Landline/LandlineBillSuccess';
+import BillsPaymentHistory from './scenes/Dashboard/RechargeAndBillPay/BillsPaymentHistory';
+import DataCard from './scenes/Dashboard/RechargeAndBillPay/DataCard/DataCard';
+import DataCardPayments from './scenes/Dashboard/RechargeAndBillPay/DataCard/DataCardPayments';
+import DataCardPaymentSuccess from './scenes/Dashboard/RechargeAndBillPay/DataCard/DataCardPaymentSuccess';
+import PrivacyPolicy from './scenes/ProminentDisclosure/PrivacyPolicy';
+import ElectricityBillScreen from './scenes/Dashboard/BBPS/ElectricityBill/ElectricityBillScreen';
+import BillFetch from './scenes/Dashboard/BBPS/ElectricityBill/BillFetch';
+import BillPayment from './scenes/Dashboard/BBPS/ElectricityBill/BillPayment';
+import BillPaymentStatus from './scenes/Dashboard/BBPS/ElectricityBill/BillPaymentStatus';
+import ChangeUserId from './scenes/ForgetPassword/ChangeUserId';
+import ForgetOptionScreen from './scenes/ForgetPassword/ForgetOptionScreen';
+import ForgetUserId from './scenes/ForgetPassword/ForgetUserId';
+import NeftMenu from './scenes/Dashboard/FundTransfer/NeftERequest/NeftMenu';
+import NeftTransfer from './scenes/Dashboard/FundTransfer/NeftERequest/NeftTransfer';
+import NeftTransferDetails from './scenes/Dashboard/FundTransfer/NeftERequest/NeftTransferDetails';
+import NeftTransferOtp from './scenes/Dashboard/FundTransfer/NeftERequest/NeftTransferOtp';
+import NeftTransferSucess from './scenes/Dashboard/FundTransfer/NeftERequest/NeftTransferSucess';
+import NeftDeleteBeneficiary from './scenes/Dashboard/FundTransfer/NeftERequest/NeftDeleteBeneficiary';
+import NeftVerifyBeneficiary from './scenes/Dashboard/FundTransfer/NeftERequest/NeftVerifyBeneficiary';
+import NeftAddBeneficiary from './scenes/Dashboard/FundTransfer/NeftERequest/NeftAddBeneficiary';
+import NeftTransHistory from './scenes/Dashboard/FundTransfer/NeftERequest/NeftTransHistory';
+import ImpsTrnsHistory from './scenes/Dashboard/FundTransfer/IMPSTransfer/ImpsTrnsHistory';
+import IMPSTransferMenu from './scenes/Dashboard/FundTransfer/IMPSTransfer/IMPSTransferMenu';
+import ImpsTransfer from './scenes/Dashboard/FundTransfer/IMPSTransfer/ImpsTransfer';
+import ImpsTransferDetails from './scenes/Dashboard/FundTransfer/IMPSTransfer/ImpsTransferDetails';
+import ImpsTransferOtp from './scenes/Dashboard/FundTransfer/IMPSTransfer/ImpsTransferOtp';
+import ImpsTransferSucess from './scenes/Dashboard/FundTransfer/IMPSTransfer/ImpsTransferSucess';
+import ImpsAddBeneficiary from './scenes/Dashboard/FundTransfer/IMPSTransfer/ImpsAddBeneficiary';
+import ImpsVerifyBeneficiary from './scenes/Dashboard/FundTransfer/IMPSTransfer/ImpsVerifyBeneficiary';
+import ImpsDeleteBeneficiary from './scenes/Dashboard/FundTransfer/IMPSTransfer/ImpsDeleteBeneficiary';
+import ForgetMpinOptionScreen from './scenes/ForgetPassword/ForgetMpinOptionScreen';
+import ForgetMpinAccountDetails from './scenes/ForgetPassword/ForgetMpinAccountDetails';
+import ElectricityBillPaySuccess from './scenes/Dashboard/BBPS/ElectricityBill/ElectricityBillPaySuccess';
+import ImpsTxtStatus from './scenes/Dashboard/FundTransfer/IMPSTransfer/ImpsTxtStatus';
+import HistoryScreen from './scenes/Dashboard/HistoryScreen';
+import ComplaintsHomeScreen from './scenes/Dashboard/BBPS/AgentComplaints/ComplaintsHomeScreen';
+import AgentComplainSuccess from './scenes/Dashboard/BBPS/AgentComplaints/AgentComplainSuccess';
+import HistoryHomeScreen from './scenes/Dashboard/BBPS/ComplaintHistory/HistoryHomeScreen';
+import HistoryList from './scenes/Dashboard/BBPS/ComplaintHistory/HistoryList';
+import TransHistoryHomeScreen from './scenes/Dashboard/BBPS/TransactionHistory/TransHistoryHomeScreen';
+import TransHistoryList from './scenes/Dashboard/BBPS/TransactionHistory/TransHistoryList';
+import TransBillingDetails from './scenes/Dashboard/BBPS/TransactionHistory/TransBillingDetails';
+import BillersComplaintsHomeScreen from './scenes/Dashboard/BBPS/BillersComplaints/BillersComplaintsHomeScreen';
+import BillersComplaintScreen from './scenes/Dashboard/BBPS/BillersComplaints/BillersComplaintScreen';
+import BillerComplaintsSuccess from './scenes/Dashboard/BBPS/BillersComplaints/BillerComplaintsSuccess';
+import RenewAccHomeScreen from './scenes/Dashboard/Deposit/Renew/RenewAccHomeScreen';
+import RenewAccScreen from './scenes/Dashboard/Deposit/Renew/RenewAccScreen';
+import PrematuredEnquiryHomeScreen from './scenes/Dashboard/Deposit/PrematuredEnquiry/PrematuredEnquiryHomeScreen';
+import CloseDepositHomeScreen from './scenes/Dashboard/Deposit/CloseDeposit/CloseDepositHomeScreen';
+import CloseAccScreen from './scenes/Dashboard/Deposit/CloseDeposit/CloseAccScreen';
+import CloseAccOTP from './scenes/Dashboard/Deposit/CloseDeposit/CloseAccOTP';
+import CloseDepositSuccess from './scenes/Dashboard/Deposit/CloseDeposit/CloseDepositSuccess';
+import ChangeLoginPassword from './scenes/ForgetPassword/ChangeLoginPassword/ChangeLoginPassword';
+import ChangeTransactionPassword from './scenes/ForgetPassword/ChangeLoginPassword/ChangeTransactionPassword';
+import TransactionOTPScreen from './scenes/Dashboard/TransactionOTPScreen';
+import AddStandingInstructions from './scenes/Dashboard/Deposit/AddStandingInstructions';
+import StandingInstructionsSuccess from './scenes/Dashboard/Deposit/StandingInstructionsSuccess';
+import StandingInstructionsOTP from './scenes/Dashboard/Deposit/StandingInstructionsOTP';
+import UPIDashboard from './scenes/UPI/UPIDashboard';
+import UPI_PTwoM from './scenes/UPI/UPI_PTwoM';
+import UPI_PTwoP from './scenes/UPI/UPI_PTwoP';
+import QRCodeDisplay from './scenes/UPI/QRCodeDisplay';
+import PTPM_RegAcList from './scenes/UPI/PTPM_RegAcList';
+import SameBankOtherAcc from './scenes/Dashboard/FundTransfer/SameBankOther/SameBankOtherAcc';
+import LoanHomeScreen from './scenes/Dashboard/Loans/LoanHomeScreen';
+import LoanDetailsScreen from './scenes/Dashboard/Loans/LoanDetailsScreen';
+import InterestRateCircularMenu from './scenes/Dashboard/Loans/InterestRateCircularMenu';
+import LoanInterestRate from './scenes/Dashboard/Loans/LoanInterestRate';
+import LaonInterestRatesDetails from './scenes/Dashboard/Loans/LaonInterestRatesDetails';
+import Emi_Calculator from './scenes/Dashboard/EMI/Emi_Calculator';
+
+const HomeNavigator = () => (
+  <Navigator screenOptions={{ headerShown: false }} initialRouteName='SplashScreen'>
+    <Screen name="splashScreen" component={SplashScreen} />
+    <Screen name="loginScreen" component={LoginScreen} />
+    <Screen name="onlineRegistration" component={OnlineRegistration} />
+    <Screen name='OnlineRegOTP' component={OnlineRegOTP} />
+    <Screen name="OnlineRegistrationSuccess" component={OnlineRegistrationSuccess} />
+    <Screen name="offlineRegistration" component={OfflineRegistration} />
+    <Screen name='bankingHomeScreen' component={BankingHomeScreen} />
+    <Screen name='bottomNavigator' component={BottomNavigatorr} />
+    <Screen name="startScreen" component={StartScreen} />
+    <Screen name="loginType" component={LoginType} />
+    <Screen name="existingUserLogin" component={ExistingUserLogin} />
+    <Screen name="existingUserOtpConfirmation" component={ExistingUserOtpConfirmation} />
+    <Screen name="existingUserLoginSuccess" component={ExistingUserLoginSuccess} />
+    <Screen name="registerModeScreen" component={RegisterModeScreen} />
+    <Screen name="sideProfileScreen" component={SideProfileScreen} />
+    <Screen name="loginTypeSelectScreen" component={LoginTypeSelectScreen} />
+    <Screen name="quickPayScreen" component={QuickPayScreen} />
+    <Screen name="registrationSuccess" component={RegistrationSuccess} />
+    <Screen name="mainLogin" component={MainLogin} />
+    <Screen name="offlineFormStepHeader" component={OfflineFormStepHeader} />
+    <Screen name="onlineFormStepHeader" component={OnlineFormStepHeader} />
+    <Screen name="createMpin" component={CreateMpin} />
+    <Screen name="myAccountList" component={MyAccountList} />
+    <Screen name="cameraPermission" component={CameraPermission} />
+    <Screen name="locationPermission" component={LocationPermission} />
+    <Screen name="storagePermission" component={StoragePermission} />
+    <Screen name="contactPermission" component={ContactPermission} />
+    <Screen name="recordAudioPermission" component={RecordAudioPermission} />
+    <Screen name="deviceInfoPemission" component={DeviceInfoPemission} />
+    <Screen name="quickPayOwnAccTransfer" component={QuickPayOwnAccTransfer} />
+    <Screen name="myAccDetails" component={MyAccDetails} />
+    <Screen name="myAccMiniStatement" component={MyAccMiniStatement} />
+    <Screen name="changeOrSetPassward" component={ChangeOrSetPassward} />
+    <Screen name="loginWithFingurePrint" component={LoginWithFingurePrint} />
+    <Screen name="enableFingurePrint" component={EnableFingurePrint} />
+    <Screen name="setFingurePrint" component={SetFingurePrint} />
+    <Screen name="quickPayMpin" component={QuickPayMpin} />
+    <Screen name="oTPForFundTransfer" component={OTPForFundTransfer} />
+    <Screen name="myAccountDownloadStatement" component={MyAccountDownloadStatement} />
+    <Screen name="newDepositAccountOpening" component={NewDepositAccountOpening} />
+    <Screen name="interestRates" component={InterestRates} />
+    <Screen name="mpassBook" component={MpassBook} />
+    <Screen name="depositAddNominee" component={DepositAddNominee} />
+    <Screen name="depositSelectModeOfOperation" component={DepositSelectModeOfOperation} />
+    <Screen name="depositReviewFD" component={DepositReviewFD} />
+    <Screen name="depositOpenAccount" component={DepositOpenAccount} />
+    <Screen name="quickPayWithinBankOtherAccount" component={QuickPayWithinBankOtherAccount} />
+    <Screen name="depositOtp" component={DepositOtp} />
+    <Screen name="depositSuccess" component={DepositSuccess} />
+    <Screen name="myAccountMiniStatement" component={MyAccountMiniStatement} />
+    <Screen name="downloadStatement" component={DownloadStatement} />
+    <Screen name="mpinSuccess" component={MpinSuccess} />
+    <Screen name="mpinFail" component={MpinFail} />
+    <Screen name="fundTransferSucess" component={FundTransferSucess} />
+    <Screen name="mpinAndPasswordCreation" component={MpinAndPasswordCreation} />
+    <Screen name="ForgetPassword" component={ForgetPassword} />
+    <Screen name="sameBankOtherAcc" component={SameBankOtherAcc} />
+    <Screen name="fundTransfer" component={FundTransfer} />
+    <Screen name="fundTransferWithOtherAcc" component={FundTransferWithOtherAcc} />
+    <Screen name="fundTransferMpin" component={FundTransferMpin} />
+    <Screen name="fundTransferSameBankSuccess" component={FundTransferSameBankSuccess} />
+    <Screen name="addBeneficiary" component={AddBeneficiary} />
+    <Screen name="verifyBeneficiary" component={VerifyBeneficiary} />
+    <Screen name="editBeneficiary" component={EditBeneficiary} />
+    <Screen name="ForgetPasswordOTP" component={ForgetPasswordOTP} />
+    <Screen name="RegistrationFail" component={RegistrationFail} />
+    <Screen name="ForgetPasswordVerify" component={ForgetPasswordVerify} />
+    <Screen name='ForgetMpin' component={ForgetMpin} />
+    <Screen name="ForgetChangeMpin" component={ForgetChangeMpin} />
+    <Screen name="prepaid" component={Prepaid} />
+    <Screen name="rechargeOffers" component={RechargeOffers} />
+    <Screen name="fundTransferOtp" component={FundTransferOtp} />
+    <Screen name="rechargePay" component={RechargePay} />
+    <Screen name="prepaidRechargeSuccess" component={PrepaidRechargeSuccess} />
+    <Screen name="OfflineRegistrationSuccess" component={OfflineRegistrationSuccess} />
+    <Screen name='OfflineOTP' component={OfflineOtpScreen} />
+    <Screen name="rechargeHistory" component={RechargeHistory} />
+    <Screen name="postpaidScreen" component={PostpaidScreen} />
+    <Screen name="postpaidBillPayment" component={PostpaidBillPayment} />
+    <Screen name="postpaidBillPaySuccess" component={PostpaidBillPaySuccess} />
+    <Screen name="DTHHomeScreen" component={DTHHomeScreen} />
+    <Screen name="DTHBillPayment" component={DTHBillPayment} />
+    <Screen name="DTHRechargeSuccess" component={DTHRechargeSuccess} />
+    <Screen name="landlineBill" component={LandlineBill} />
+    <Screen name="landlineBillPayment" component={LandlineBillPayment} />
+    <Screen name="landlineBillSuccess" component={LandlineBillSuccess} />
+    <Screen name="billsPaymentHistory" component={BillsPaymentHistory} />
+    <Screen name="dataCard" component={DataCard} />
+    <Screen name="dataCardPayments" component={DataCardPayments} />
+    <Screen name="dataCardPaymentSuccess" component={DataCardPaymentSuccess} />
+    <Screen name="PrivacyPolicy" component={PrivacyPolicy} />
+    <Screen name="electricityBillScreen" component={ElectricityBillScreen} />
+    <Screen name="billFetch" component={BillFetch} />
+    <Screen name="billPayment" component={BillPayment} />
+    <Screen name="billPaymentStatus" component={BillPaymentStatus} />
+    <Screen name='ChangeUserId' component={ChangeUserId} />
+    <Screen name='IMPSTransferMenu' component={IMPSTransferMenu} />
+    <Screen name='ImpsTransfer' component={ImpsTransfer} />
+    <Screen name='ImpsTransferDetails' component={ImpsTransferDetails} />
+    <Screen name='ImpsTransferOtp' component={ImpsTransferOtp} />
+    <Screen name='ImpsTransferSuccess' component={ImpsTransferSucess} />
+    <Screen name='ImpsAddBeneficiary' component={ImpsAddBeneficiary} />
+    <Screen name='ImpsVerifyBeneficiary' component={ImpsVerifyBeneficiary} />
+    <Screen name='ImpsDeleteBeneficiary' component={ImpsDeleteBeneficiary} />
+    <Screen name='ImpsTrnsHistory' component={ImpsTrnsHistory} />
+    <Screen name='ForgetOptionScreen' component={ForgetOptionScreen} />
+    <Screen name='ForgetUserId' component={ForgetUserId} />
+    <Screen name='neftMenu' component={NeftMenu} />
+    <Screen name='NeftTransfer' component={NeftTransfer} />
+    <Screen name='NeftransferDetails' component={NeftTransferDetails} />
+    <Screen name='NeftTransferOtp' component={NeftTransferOtp} />
+    <Screen name='NeftTransferSuccess' component={NeftTransferSucess} />
+    <Screen name='NeftAddBeneficiary' component={NeftAddBeneficiary} />
+    <Screen name='NeftVerifyBeneficiary' component={NeftVerifyBeneficiary} />
+    <Screen name='NeftDeleteBeneficiary' component={NeftDeleteBeneficiary} />
+    <Screen name='NeftTransHistory' component={NeftTransHistory} />
+    <Screen name='ForgetMpinOptionScreen' component={ForgetMpinOptionScreen} />
+    <Screen name='ForgetMpinAccountDetails' component={ForgetMpinAccountDetails} />
+    <Screen name="ImpsTxtStatus" component={ImpsTxtStatus} />
+    <Screen name='HistoryScreen' component={HistoryScreen} />
+    <Screen name="electricityBillPaySuccess" component={ElectricityBillPaySuccess} />
+    <Screen name="complaintsHomeScreen" component={ComplaintsHomeScreen} />
+    <Screen name="agentComplainSuccess" component={AgentComplainSuccess} />
+    <Screen name="historyHomeScreen" component={HistoryHomeScreen} />
+    <Screen name="historyList" component={HistoryList} />
+    <Screen name="transHistoryHomeScreen" component={TransHistoryHomeScreen} />
+    <Screen name="transHistoryList" component={TransHistoryList} />
+    <Screen name="transBillingDetails" component={TransBillingDetails} />
+    <Screen name="billersComplaintsHomeScreen" component={BillersComplaintsHomeScreen} />
+    <Screen name="billersComplaintScreen" component={BillersComplaintScreen} />
+    <Screen name="billerComplaintsSuccess" component={BillerComplaintsSuccess} />
+    <Screen name="renewAccHomeScreen" component={RenewAccHomeScreen} />
+    <Screen name="renewAccScreen" component={RenewAccScreen} />
+    <Screen name="prematuredEnquiryHomeScreen" component={PrematuredEnquiryHomeScreen} />
+    <Screen name="closeDepositHomeScreen" component={CloseDepositHomeScreen} />
+    <Screen name="closeAccScreen" component={CloseAccScreen} />
+    <Screen name="closeAccOTP" component={CloseAccOTP} />
+    <Screen name="closeDepositSuccess" component={CloseDepositSuccess} />
+    <Screen name="ChangeLoginPassword" component={ChangeLoginPassword} />
+    <Screen name="ChangeTransactionPassword" component={ChangeTransactionPassword} />
+    <Screen name='transactionOTPScreen' component={TransactionOTPScreen} />
+    <Screen name='AddStandingInstructions' component={AddStandingInstructions} />
+    <Screen name='StandingInstructionsOTP' component={StandingInstructionsOTP} />
+    <Screen name='StandingInstructionsSuccess' component={StandingInstructionsSuccess} />
+    <Screen name='UPIDashboard' component={UPIDashboard} />
+    <Screen name='UPI_PTwoP' component={UPI_PTwoP} />
+    <Screen name='UPI_PTwoM' component={UPI_PTwoM} />
+    <Screen name='QRCodeDisplay' component={QRCodeDisplay} />
+    <Screen name='PTPM_RegAcList' component={PTPM_RegAcList} />
+    <Screen name='LoanHomeScreen' component={LoanHomeScreen} />
+    <Screen name='LoanDetailsScreen' component={LoanDetailsScreen} />
+    <Screen name='Emi_Calculator' component={Emi_Calculator}/>
+    <Screen name='InterestRateCircularMenu' component={InterestRateCircularMenu}/>
+    <Screen name='LoanInterestRate' component={LoanInterestRate}/>
+    <Screen name='LoanInterestRateDetails' component={LaonInterestRatesDetails}/>
+    
+  </Navigator>
+);
+
+function AppNavigator(props) {
+  return (
+    <NavigationContainer>
+      <StatusBar translucent backgroundColor='transparent' />
+      <HomeNavigator />
+    </NavigationContainer>
+  );
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AppNavigator);
