@@ -6,6 +6,7 @@ import {
     ImageBackground,
     ScrollView,
     KeyboardAvoidingView,
+    BackHandler,
 } from 'react-native';
 import {
     colors,
@@ -102,6 +103,9 @@ class QuickPayOwnAccTransfer extends Component {
         };
         this.shwoingData = []
         this.beneshowingData = []
+
+        this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
+
     }
     componentDidMount() {
         console.log("AccountList: " + JSON.stringify(this.state.accounList))
@@ -155,7 +159,22 @@ class QuickPayOwnAccTransfer extends Component {
         })
 
     }
+    componentWillMount() {
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+    }
 
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
+    }
+
+    handleBackButtonClick() {
+        navigation.goBack(this)
+        return true;
+    }
+
+    onBackAction() {
+        navigation.goBack(this)
+    }
     checkInternetConnection = async () => {
         try {
             const state = await NetInfo.fetch();
@@ -431,9 +450,7 @@ class QuickPayOwnAccTransfer extends Component {
 
     bgImage = appThemeConfiguration(this.props.AppThemeSet).bgImg
 
-    onBackAction() {
-        navigation.goBack(this)
-    }
+  
 
     onSelectAccount = (value, title, acmastcode, acName, debitStop, min_bal, min_bal_req, debit_gl_type) => {
         this.setState({ isModalVisible: false })
