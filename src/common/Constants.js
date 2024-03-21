@@ -16,6 +16,9 @@ export default {
   // BankCode: "SIDHVI",
   
   // BankCode: "SUREJSP",
+
+  GoogleBankCode: 'GOOGLE',
+
   ProdCD : "MOBBANK",
   MobileNumber : "",
   LAST_LOGIN : "",

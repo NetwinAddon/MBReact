@@ -575,8 +575,12 @@ class NeftTransfer extends Component {
         const trn_amount = parseFloat(this.state.amount)
         const ac_balacne = parseFloat(this.state.availableBalance)
         const m_bal = parseFloat(this.state.min_bal)
+        
         const transferable_amount = chrg_amt + trn_amount
         const remain_TransactionBalance = ac_balacne - m_bal
+
+
+
         console.log("min_bal_req: " + this.state.min_bal_req)
         console.log("Account_Balance: ", ac_balacne)
         console.log("Minimum_Balance: ", m_bal)

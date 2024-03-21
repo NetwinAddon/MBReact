@@ -281,8 +281,8 @@ class ForgetMpinAccountDetails extends Component {
     const jsonReq =
     {
       customerId: this.state.USERID,
-      branchCd: this.props.BranchCode,
-      secKey: this.state.SECRETKEY,
+      branchCd: Constants.BRANCH_CODE,
+      secKey: Constants.SecretKey,
       divId: this.props.DeviceId,
       MPIN: this.state.confirmMpin,
       BANK_CODE: Constants.BankCode
@@ -329,7 +329,14 @@ class ForgetMpinAccountDetails extends Component {
             backgroundColor: 'green'
           });
 
-          this.props.navigation.reset({ index: 0, routes: [{ name: 'loginTypeSelectScreen' }], });
+          const GMST_CODE = this.props.gmstCode
+          console.log("Forget change GMST_CODE" + GMST_CODE)
+
+          if (GMST_CODE === null || GMST_CODE === undefined || GMST_CODE.trim() === "") {
+            this.props.navigation.reset({ index: 0, routes: [{ name: 'existingUserLogin' }],  });
+          } else {
+            navigation.navigate(this, 'mainLogin', { from: 'Dashboard' })
+          }
 
 
         }

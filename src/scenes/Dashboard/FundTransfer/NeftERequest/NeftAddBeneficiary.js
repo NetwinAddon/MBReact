@@ -402,7 +402,7 @@ class NeftAddBeneficiary extends Component {
                         var newRes = responseData.slice(16)
                         var finalRes = JSON.parse(newRes)
                         if (finalRes.Acdtls.length === 0) {
-                            this.setState({ isOkModalVisible: true })
+                            this.setState({ isOkModalVisible: true, myJsonArrayforBeneficiaryList: []  })
                             this.props.setOkDialogText("no data available")
                         }
                         else {

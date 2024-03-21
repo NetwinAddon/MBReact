@@ -6,7 +6,6 @@ import {
     ImageBackground,
     ScrollView,
     KeyboardAvoidingView,
-    BackHandler,
 } from 'react-native';
 import {
     colors,
@@ -100,12 +99,10 @@ class QuickPayOwnAccTransfer extends Component {
             isRDAccSelect: false,
             AC_DUE_DT: '',
             error_rd_info: '',
+            ACTYPE: ''
         };
         this.shwoingData = []
         this.beneshowingData = []
-
-        this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
-
     }
     componentDidMount() {
         console.log("AccountList: " + JSON.stringify(this.state.accounList))
@@ -122,7 +119,8 @@ class QuickPayOwnAccTransfer extends Component {
                         debitStop: item.DEBITSTOP,
                         min_bal: item.MIN_BAL,
                         min_bal_req: item.MIN_BAL_REQ,
-                        DEBIT_GL_TYPE: item.ACTYPE + " - " + item.AC_NO
+                        DEBIT_GL_TYPE: item.ACTYPE + " - " + item.AC_NO,
+                        ACTYPE: item.ACTYPE
                     });
                 } else {
                     formattedData.push({
@@ -135,23 +133,25 @@ class QuickPayOwnAccTransfer extends Component {
                             debitStop: item.DEBITSTOP,
                             min_bal: item.MIN_BAL,
                             min_bal_req: item.MIN_BAL_REQ,
-                            DEBIT_GL_TYPE: item.ACTYPE + " - " + item.AC_NO
+                            DEBIT_GL_TYPE: item.ACTYPE + " - " + item.AC_NO,
+                            ACTYPE: item.ACTYPE
                         }],
                     });
                 }
             }
         });
+        console.log("formattedData", JSON.stringify(formattedData))
         this.shwoingData.push(formattedData)
         this.shwoingData.map((person, index) => {
-            console.log("Person", Constants.Selected_ACTYPE)
+            console.log("Person", JSON.stringify(person))
             if (['saving account', 'loan account', 'current account'].includes(Constants.Selected_ACTYPE)) {
-                this.setState({ myJsonArray: person, accType: Constants.Selected_AC_NO, fromAccAcmastCode: Constants.Selected_ACMASTCODE, fromAccName: Constants.Selected_AC_NAME, debitStop: Constants.Selected_DEBIT_STOP, min_bal: Constants.Selected_MIN_BAL, min_bal_req: Constants.Selected_MIN_BAL_REQ, DEBIT_GL_TYPE: Constants.Selected_DEBIT_GL_TYPE })
+                this.setState({ myJsonArray: person, accType: Constants.Selected_AC_NO, fromAccAcmastCode: Constants.Selected_ACMASTCODE, fromAccName: Constants.Selected_AC_NAME, debitStop: Constants.Selected_DEBIT_STOP, min_bal: Constants.Selected_MIN_BAL, min_bal_req: Constants.Selected_MIN_BAL_REQ, DEBIT_GL_TYPE: Constants.Selected_DEBIT_GL_TYPE, ACTYPE: Constants.Selected_ACTYPE })
                 this.GetBeneficiaryList(Constants.Selected_AC_NO, Constants.Selected_ACMASTCODE)
                 this.GetAllowableBalance(Constants.Selected_AC_NO, Constants.Selected_ACMASTCODE)
 
             }
             else {
-                this.setState({ myJsonArray: person, accType: person[index].data[index].label, fromAccAcmastCode: person[index].data[index].acmastcode, fromAccName: person[index].data[index].acName, debitStop: person[index].data[index].debitStop, min_bal: person[index].data[index].min_bal, min_bal_req: person[index].data[index].min_bal_req, DEBIT_GL_TYPE: person[index].data[index].DEBIT_GL_TYPE })
+                this.setState({ myJsonArray: person, accType: person[index].data[index].label, fromAccAcmastCode: person[index].data[index].acmastcode, fromAccName: person[index].data[index].acName, debitStop: person[index].data[index].debitStop, min_bal: person[index].data[index].min_bal, min_bal_req: person[index].data[index].min_bal_req, DEBIT_GL_TYPE: person[index].data[index].DEBIT_GL_TYPE, ACTYPE: person[index].data[index].ACTYPE })
                 this.GetBeneficiaryList(person[index].data[index].label, person[index].data[index].acmastcode)
                 this.GetAllowableBalance(person[index].data[index].label, person[index].data[index].acmastcode)
             }
@@ -159,22 +159,7 @@ class QuickPayOwnAccTransfer extends Component {
         })
 
     }
-    componentWillMount() {
-        BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
-    }
 
-    componentWillUnmount() {
-        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
-    }
-
-    handleBackButtonClick() {
-        navigation.goBack(this)
-        return true;
-    }
-
-    onBackAction() {
-        navigation.goBack(this)
-    }
     checkInternetConnection = async () => {
         try {
             const state = await NetInfo.fetch();
@@ -369,7 +354,7 @@ class QuickPayOwnAccTransfer extends Component {
         const year = parseInt(parts[2]) + 2000;
         const parsedDate = new Date(year, monthIndex, parseInt(parts[0])); // Subtract 1 from monthIndex
         const formattedDate = `${parsedDate.getDate()}/${parsedDate.getMonth() + 1}/${parsedDate.getFullYear()}`;
-        
+
         console.log("p_date: " + formattedDate);
         const today = new Date()
 
@@ -450,15 +435,18 @@ class QuickPayOwnAccTransfer extends Component {
 
     bgImage = appThemeConfiguration(this.props.AppThemeSet).bgImg
 
-  
+    onBackAction() {
+        navigation.goBack(this)
+    }
 
-    onSelectAccount = (value, title, acmastcode, acName, debitStop, min_bal, min_bal_req, debit_gl_type) => {
+    onSelectAccount = (value, title, acmastcode, acName, debitStop, min_bal, min_bal_req, debit_gl_type, ACTYPE) => {
+        console.log("ItemData========" + ACTYPE)
         this.setState({ isModalVisible: false })
         if (acmastcode === null || acmastcode === undefined || acmastcode.trim() === "") {
         }
         else {
             if (this.state.labelText === 'From A/c') {
-                this.setState({ accType: value, fromAcc: value, fromAccAcmastCode: acmastcode, fromAccName: acName, debitStop: debitStop, min_bal: min_bal, min_bal_req: min_bal_req, DEBIT_GL_TYPE: debit_gl_type })
+                this.setState({ accType: value, fromAcc: value, fromAccAcmastCode: acmastcode, fromAccName: acName, debitStop: debitStop, min_bal: min_bal, min_bal_req: min_bal_req, DEBIT_GL_TYPE: debit_gl_type, ACTYPE: ACTYPE })
                 this.GetBeneficiaryList(value, acmastcode)
                 this.GetAllowableBalance(value, acmastcode)
             }
@@ -514,19 +502,7 @@ class QuickPayOwnAccTransfer extends Component {
         }, 1500);
         const result = this.ValidateForm();
         if (result) {
-            if (parseFloat(this.state.availableBalance) === parseFloat(this.state.amount)) {
-                this.setState({ isYesNoModalVisible: true })
-                this.props.setOkDialogText("Due to this transaction account balance goes below the minimum balance do you want to proceed ?.")
-            }
-            else 
-            {
-                // if (this.props.termsAndConditionShown) {
-                    navigation.navigate(this, 'quickPayWithinBankOtherAccount', { from: this.state.callFrom, fromAcc: this.state.accType, toAcc: this.state.benificiaryAcc, remark: this.state.remark, amount: this.state.amount, fromAccAcmastCode: this.state.fromAccAcmastCode, beneficiaryAccAcmastCode: this.state.beneficiaryAccAcmastCode, fromAccName: this.state.fromAccName, beneficiaryAccName: this.state.beneficiaryAccName, bBranchCode: this.state.bBranchCode, accList: this.state.accounList })
-                // }
-                // else {
-                //     this.setState({ isTermsConditionModalVisible: true })
-                // }
-            }
+            this.minBalanceCalculation()
         }
     }
 
@@ -602,28 +578,10 @@ class QuickPayOwnAccTransfer extends Component {
             });
             result = false;
         }
-        console.log("Account_Name: ", this.state.fromAccName)
-        if (!this.state.fromAccName.includes("LOAN")) {
-            if (parseFloat(this.state.ftTrnLmt) == 0 || parseFloat(this.state.dlyLmt) == 0) {
-                const trn_amount = parseFloat(this.state.amount)
-                const ac_balance = Math.abs(parseFloat(bal))
-                const m_balance = parseFloat(this.state.min_bal)
-                console.log("Account_Balance: ", ac_balance)
-                console.log("Minimum_Balance: ", m_balance)
-                console.log("Trn_Balance: ", m_balance)
-                const remain_balance = ac_balance - trn_amount
-                console.log("Remain_Balance: ", remain_balance)
-                if (remain_balance < m_balance) {
-                    if (this.state.min_bal_req === 'Y') {
-                        this.setState({ isOkModalVisible: true })
-                        this.props.setOkDialogText("This transaction cannot be done because the balance goes below the minimum balance.")
-                    }
-                    else {
-                        this.setState({ isYesNoModalVisible: true })
-                        this.props.setOkDialogText("Due to this transaction balance goes below the minimum balance do you want to proceed ?.")
-                    }
-                }
-                result = false;
+        console.log("Account_Name: ", this.state.ACTYPE)
+        if (parseFloat(this.state.ftTrnLmt) == 0 || parseFloat(this.state.dlyLmt) == 0) {
+            if (!this.state.ACTYPE.includes("LOAN")) {
+                this.minBalanceCalculation()
             }
         }
 
@@ -648,16 +606,70 @@ class QuickPayOwnAccTransfer extends Component {
         console.log("beneficiaryAccBalance=====================+" + beneficiaryAccBalance)
         console.log("AC_TYPE=====================+" + this.state.AC_TYPE)
 
-
-
         if (this.state.AC_TYPE === '1' && !(parseFloat(this.state.amount) % parseFloat(beneficiaryAccBalance) === 0)) {
             this.setState({ isOkModalVisible: true })
             this.props.setOkDialogText("Please enter amount multiple of " + beneficiaryAccBalance)
             result = false;
         }
+
         return result;
     };
+    minBalanceCalculation() {
 
+        if (!this.state.ACTYPE.includes("LOAN")) {
+
+            const transferable_amount = parseFloat(this.state.amount)
+            const ac_balance = parseFloat(this.state.availableBalance)
+            const m_bal = parseFloat(this.state.min_bal)
+
+            const remain_TransactionBalance = ac_balance - m_bal
+
+            console.log("trn_amount: ", transferable_amount)
+            console.log("ac_balance: ", ac_balance)
+            console.log("m_balance: ", m_bal)
+            console.log("m_balaremain_TransactionBalancence: ", remain_TransactionBalance)
+
+            console.log("this.state.min_bal_req: ", this.state.min_bal_req)
+
+            if (this.state.min_bal_req === 'N') 
+            {
+                if (ac_balance < transferable_amount) {
+                    setTimeout(() => {
+                        this.setState({ isOkModalVisible: true })
+                    }, Platform.OS === 'ios' ? 500 : 0);
+                    this.props.setOkDialogText('Amount must not exceed account balance ')
+                }
+                else if (remain_TransactionBalance < transferable_amount) {
+                    this.setState({ isYesNoModalVisible: true })
+                    this.props.setOkDialogText("Due to this transaction balance goes below the minimum balance do you want to proceed ?.")
+                }
+                else {
+                    navigation.navigate(this, 'quickPayWithinBankOtherAccount', { from: this.state.callFrom, fromAcc: this.state.accType, toAcc: this.state.benificiaryAcc, remark: this.state.remark, amount: this.state.amount, fromAccAcmastCode: this.state.fromAccAcmastCode, beneficiaryAccAcmastCode: this.state.beneficiaryAccAcmastCode, fromAccName: this.state.fromAccName, beneficiaryAccName: this.state.beneficiaryAccName, bBranchCode: this.state.bBranchCode, accList: this.state.accounList })
+
+                }
+
+            }
+            else 
+            {
+                if (remain_TransactionBalance < transferable_amount) {
+                    this.setState({ isOkModalVisible: true })
+                    this.props.setOkDialogText("This transaction cannot be done because the balance goes below the minimum balance.")
+                }
+                else {
+                    navigation.navigate(this, 'quickPayWithinBankOtherAccount', { from: this.state.callFrom, fromAcc: this.state.accType, toAcc: this.state.benificiaryAcc, remark: this.state.remark, amount: this.state.amount, fromAccAcmastCode: this.state.fromAccAcmastCode, beneficiaryAccAcmastCode: this.state.beneficiaryAccAcmastCode, fromAccName: this.state.fromAccName, beneficiaryAccName: this.state.beneficiaryAccName, bBranchCode: this.state.bBranchCode, accList: this.state.accounList })
+
+                }
+
+            }
+        }
+        else {
+            navigation.navigate(this, 'quickPayWithinBankOtherAccount', { from: this.state.callFrom, fromAcc: this.state.accType, toAcc: this.state.benificiaryAcc, remark: this.state.remark, amount: this.state.amount, fromAccAcmastCode: this.state.fromAccAcmastCode, beneficiaryAccAcmastCode: this.state.beneficiaryAccAcmastCode, fromAccName: this.state.fromAccName, beneficiaryAccName: this.state.beneficiaryAccName, bBranchCode: this.state.bBranchCode, accList: this.state.accounList })
+        }
+
+
+
+
+    }
     toggleModalYesNoDialog = () => {
         this.setState({ isYesNoModalVisible: false });
     };
@@ -876,14 +888,14 @@ class QuickPayOwnAccTransfer extends Component {
                                         cardMaxElevation={2}
                                         cornerRadius={12}
                                         style={styles.submitButtonCard}>
-                                        <TouchableOpacity style={[styles.submitButtonTouchable, { backgroundColor: this.props.PrimaryColor,}]}
+                                        <TouchableOpacity style={[styles.submitButtonTouchable, { backgroundColor: this.props.PrimaryColor, }]}
                                             onPress={() => this.toCallSubmit()}
                                             disabled={this.state.isButtonclick || this.state.isRDValidation}>
                                             <Text style={styles.submitButtonText}>Submit</Text>
                                         </TouchableOpacity>
                                     </CardView> : null}
 
-                                    {this.state.error_rd_info !== '' && (<Text style={styles.ErrorDisplay}>{"Note: "+this.state.error_rd_info}</Text>)}
+                                {this.state.error_rd_info !== '' && (<Text style={styles.ErrorDisplay}>{"Note: " + this.state.error_rd_info}</Text>)}
 
                             </ScrollView>
                             {

@@ -10,7 +10,7 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 // import Colors from '../common/Colors';
 
 export function QuickPayCustomPopupDropDownForLoan(isVisible, accTypes, onSelectAccount, labelText, labelValue, availableBalance) {
-     console.log("AccType===========labelText: ", JSON.stringify(accTypes))
+    //  console.log("AccType===========labelText: ", JSON.stringify(accTypes))
     //  console.log("AccType===========labelValue: ",labelValue)
 
     return (
@@ -119,8 +119,8 @@ export function QuickPayCustomPopupDropDownForLoan(isVisible, accTypes, onSelect
                                         >
                                             <TouchableOpacity
                                                 onPress={() => {
-                                                    
-                                                    onSelectAccount(item.label, item.bal, item.acmastcode, item.acName, item.debitStop, item.min_bal, item.min_bal_req, item.DEBIT_GL_TYPE, item.acType)
+                                                    console.log(item.ACTYPE)
+                                                    onSelectAccount(item.label, item.bal, item.acmastcode, item.acName, item.debitStop, item.min_bal, item.min_bal_req, item.DEBIT_GL_TYPE, item.ACTYPE)
                                                 }}
                                             >
                                                 <View style={{

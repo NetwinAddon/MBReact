@@ -144,6 +144,28 @@ class Emi_Calculator extends Component {
 
     };
 
+    ReducingInt = () => {
+        this.setState({ Flat_EMI: false })
+
+        // this.Reset()
+
+        // if (this.state.LoanAmount !== '' && this.state.RateOfInt !== '' && this.state.Tenure !== '' && this.state.LoanAmount !== 0 && this.state.RateOfInt !== 0 && this.state.Tenure !== 0) 
+        // {
+        //     this.calculateEMI()
+        // }
+    }
+
+    FlatEmi = () => {
+        this.setState({ Flat_EMI: true })
+
+        // this.Reset()
+
+        // if (this.state.LoanAmount !== '' && this.state.RateOfInt !== '' && this.state.Tenure !== '' && this.state.LoanAmount !== 0 && this.state.RateOfInt !== 0 && this.state.Tenure !== 0) 
+        // {
+        //     this.calculateEMI()
+        // }
+    }
+
 
     calculateEMI = () => {
 
@@ -153,22 +175,10 @@ class Emi_Calculator extends Component {
         const rateOfInterestNumber = parseFloat(RateOfInt);
         const tenureNumber = parseFloat(Tenure);
 
-        console.log("loanAmountNumber "+loanAmountNumber)
-        console.log("rateOfInterestNumber "+rateOfInterestNumber) 
-        console.log("tenureNumber "+tenureNumber)
-
         if (loanAmountNumber === 0 || tenureNumber === 0) {
             Snackbar.show({ text: "Enter Valid Values", duration: Snackbar.LENGTH_SHORT, backgroundColor: "red", });
             return;
         }
-
-
-        // if (isNaN(loanAmountNumber) || isNaN(rateOfInterestNumber) || isNaN(tenureNumber)) {
-        //     // If any of the inputs are NaN, don't proceed with the calculation
-        //     console.log("tenureNumber "+tenureNumber)
-        //     Snackbar.show({ text: "Enter Valid Values", duration: Snackbar.LENGTH_SHORT, backgroundColor: "red", });
-        //     return;
-        // }
 
         var tenureInMonths = tenureNumber
 
@@ -176,29 +186,33 @@ class Emi_Calculator extends Component {
             tenureInMonths = tenureNumber * 12;
         }
 
-        const monthlyInterest = rateOfInterestNumber / (12 * 100);
 
-        // if (isNaN(monthlyInterest) || monthlyInterest === 0) {
-        //     return;
-        // }
+        var emi = 0;
 
-        const emi =
-            loanAmountNumber *
-            monthlyInterest *
-            Math.pow(1 + monthlyInterest, tenureInMonths) /
-            (Math.pow(1 + monthlyInterest, tenureInMonths) - 1);
+        if (this.state.Flat_EMI) {
+
+            emi = (loanAmountNumber + ((loanAmountNumber * rateOfInterestNumber * (tenureInMonths / 12)) / 100)) / tenureInMonths
 
 
-        // const emiResult = loanAmountNumber * monthlyInterest * Math.pow(1 + monthlyInterest, tenureInMonths) / (Math.pow(1 + monthlyInterest, tenureInMonths) - 1);
-        // const emi = Math.round(emiResult * 100) / 100;
+        }
+        else {
+
+            const monthlyInterest = rateOfInterestNumber / (12 * 100);
+
+            if (isNaN(monthlyInterest) || monthlyInterest === 0) {
+                Snackbar.show({ text: "Enter Valid Rate of interest", duration: Snackbar.LENGTH_SHORT, backgroundColor: "red", });
+
+                return;
+            }
+
+            emi = loanAmountNumber * monthlyInterest * Math.pow(1 + monthlyInterest, tenureInMonths) / (Math.pow(1 + monthlyInterest, tenureInMonths) - 1);
+
+        }
 
 
         const totalInterest = emi * tenureInMonths - loanAmountNumber;
 
         const totalAmt = emi * tenureInMonths
-
-        console.log("emi " + emi)
-        console.log("totalInterest " + totalInterest)
 
         this.setState({
             MonthlyEMI: emi.toFixed(1),
@@ -236,11 +250,11 @@ class Emi_Calculator extends Component {
     }
 
     BtnViewSummery = () => {
-        this.setState({ GraphicalVisible: true , SummeryVisible : false });
+        this.setState({ GraphicalVisible: true, SummeryVisible: false });
     };
-    
+
     BtnGraphicalView = () => {
-        this.setState({ GraphicalVisible: false , SummeryVisible : true });
+        this.setState({ GraphicalVisible: false, SummeryVisible: true });
     };
 
 
@@ -251,8 +265,8 @@ class Emi_Calculator extends Component {
     render() {
 
         const gradients = this.GraphData.map((value, index) => {
-            const startColor = this.staticColorsArray[index * 2]; 
-            const endColor = this.staticColorsArray[index * 2 + 1]; 
+            const startColor = this.staticColorsArray[index * 2];
+            const endColor = this.staticColorsArray[index * 2 + 1];
 
             return (
                 <Defs key={index}>
@@ -319,8 +333,10 @@ class Emi_Calculator extends Component {
 
                                         <View style={styles.OptionBg}>
 
-                                            <TouchableOpacity style={this.state.Flat_EMI ? styles.IntTypUnSelect : styles.IntTypSelect}
-                                                onPress={() => this.setState({ Flat_EMI: false })}
+                                            <TouchableOpacity
+                                                style={this.state.Flat_EMI ? styles.IntTypUnSelect : styles.IntTypSelect}
+                                                disabled={!this.state.Editable}
+                                                onPress={() => this.ReducingInt()}
                                             >
 
                                                 <Text style={[styles.TxtOptSel, { color: this.props.PrimaryColor }]}>Reducing Interest EMI Calculator</Text>
@@ -328,7 +344,8 @@ class Emi_Calculator extends Component {
                                             </TouchableOpacity>
 
                                             <TouchableOpacity style={this.state.Flat_EMI ? styles.IntTypSelect : styles.IntTypUnSelect}
-                                                onPress={() => this.setState({ Flat_EMI: true })}
+                                               disabled={!this.state.Editable}
+                                                onPress={() => this.FlatEmi()}
                                             >
 
                                                 <Text style={[styles.TxtOptSel, { color: this.props.PrimaryColor }]}>Flat EMI Calculator</Text>

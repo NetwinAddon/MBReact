@@ -170,6 +170,18 @@ class FundTransferOtp extends Component {
                   accList: this.state.accList,})
                 : navigation.navigate(this, 'quickPayScreen');
               }
+              else if (response.RESULT.includes('TRANSACTION AMOUNT EXCEEDS TRANSACTION AMOUNT LIMIT.')) {
+                Snackbar.show({
+                  text: ErrorMsg,
+                  duration: Snackbar.LENGTH_SHORT,
+                  backgroundColor: 'red',
+                });
+                navigation.navigate(this, 'sameBankOtherAcc', {
+                  from: this.state.callFrom,
+                  accList: this.state.accList,
+                });
+
+              }
               else{
                 Snackbar.show({
                   text: ErrorMsg + " " + "Attempts Left:-" + (Number(3) - Number(this.state.errorCount)),
@@ -177,14 +189,7 @@ class FundTransferOtp extends Component {
                   backgroundColor: 'red',
                 });
               }
-              if (response.RESULT.includes('TRANSACTION AMOUNT EXCEEDS TRANSACTION AMOUNT LIMIT.')) {
-                console.log("if")
-                navigation.navigate(this, 'sameBankOtherAcc', {
-                  from: this.state.callFrom,
-                  accList: this.state.accList,
-                });
-
-              }
+              
 
             } else if (res === 'TRUE') {
               this.setState({ errorCount: 0 });

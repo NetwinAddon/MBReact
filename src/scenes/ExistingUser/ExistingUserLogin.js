@@ -55,18 +55,20 @@ class ExistingUserLogin extends Component {
 
 
 
-            temp_Url :'',
-            temp_BankCd:'',
+            temp_Url: '',
+            temp_BankCd: '',
         };
     }
 
     async componentDidMount() {
 
-        this.state.temp_Url = APIUrlConstants.BASE_URL
-        this.state.BankCd =   Constants.BankCode
 
-        console.log('this.state.temp_Url : ',this.state.temp_Url);
-        console.log('this.state.BankCd: ', this.state.BankCd);
+        this.state.temp_Url = APIUrlConstants.TempLink
+        this.state.temp_BankCd = APIUrlConstants.TempBankcode
+
+
+        console.log('this.state.temp_Url : ', this.state.temp_Url);
+        console.log('this.state.temp_BankCd: ', this.state.temp_BankCd);
 
         console.log('Device Id  Existing : ', this.props.DeviceId);
         console.log('SimID Existing : ', this.props.SimId);
@@ -176,16 +178,15 @@ class ExistingUserLogin extends Component {
         let Password = await _toEncrypt(this.state.loginPass)
 
 
-       
-        if (this.state.userid === 'google' || this.state.userid === 'GOOGLE') {
-            Constants.BankCode = 'GOOGLE'
-            APIUrlConstants.BASE_URL = APIUrlConstants.Google_Rest_Url
 
+        if (this.state.userid.trim() === 'google' || this.state.userid.trim() === 'GOOGLE' || this.state.userid.trim() === 'Google') {
+            Constants.BankCode = Constants.GoogleBankCode
+            APIUrlConstants.BASE_URL = APIUrlConstants.Google_Rest_Url
         }
         else 
         {
             APIUrlConstants.BASE_URL = this.state.temp_Url
-            Constants.BankCode = this.state.BankCd
+            Constants.BankCode = this.state.temp_BankCd
         }
 
 
