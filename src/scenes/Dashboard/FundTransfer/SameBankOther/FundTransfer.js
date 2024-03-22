@@ -147,6 +147,7 @@ class FundTransfer extends Component {
             debitStop: item.DEBITSTOP,
             min_bal: item.MIN_BAL,
             min_bal_req: item.MIN_BAL_REQ,
+            
           });
         } else {
           formattedData.push({
@@ -328,43 +329,34 @@ class FundTransfer extends Component {
         this.setState({ isOkModalVisible: true });
         this.props.setOkDialogText('Insufficient Account Balance');
       }
-      else if (parseFloat(availableBalance) === parseFloat(EnteredAmount)) {
-        this.setState({ isYesNoModalVisible: true });
-        this.props.setOkDialogText(
-          'Due to this transaction, the account balance will fall below the minimum balance. Do you want to proceed?'
-        );
-      }
-
 
       else {
 
         if (Constants.UserId === 'google' || Constants.UserId === 'GOOGLE') {
 
 
-          navigation.navigate(this, 'fundTransferSameBankSuccess', { from: this.state.callFrom , refNo:'695969' });
+          navigation.navigate(this, 'fundTransferSameBankSuccess', { from: this.state.callFrom, refNo: '695969' });
 
         }
         else {
-          navigation.navigate(this, 'fundTransferWithOtherAcc', {
-            from: this.state.callFrom,
-            fromAcc: this.state.accType,
-            toAcc: this.state.benificiaryAcc,
-            remark: this.state.remark,
-            amount: this.state.amount,
-            fromAccAcmastCode: this.state.acmastcode,
-            beneficiaryAccAcmastCode: this.state.beneficiaryAccAcmastCode,
-            beneficiaryBranchCode: this.state.beneficiaryBranchCode,
-            fromAccName: this.state.fromAccName,
-            beneficiaryId: this.state.beneficiaryId,
-            accList: this.state.accounList,
-          });
+          // navigation.navigate(this, 'fundTransferWithOtherAcc', {
+          //   from: this.state.callFrom,
+          //   fromAcc: this.state.accType,
+          //   toAcc: this.state.benificiaryAcc,
+          //   remark: this.state.remark,
+          //   amount: this.state.amount,
+          //   fromAccAcmastCode: this.state.acmastcode,
+          //   beneficiaryAccAcmastCode: this.state.beneficiaryAccAcmastCode,
+          //   beneficiaryBranchCode: this.state.beneficiaryBranchCode,
+          //   fromAccName: this.state.fromAccName,
+          //   beneficiaryId: this.state.beneficiaryId,
+          //   accList: this.state.accounList,
+          // });
+          this.minBalanceCalculation()
 
         }
       }
     }
-
-
-
   }
 
   checkInternetConnection = async () => {
@@ -431,29 +423,10 @@ class FundTransfer extends Component {
       result = false;
     }
 
-
-    if (!this.state.fromAccName.includes('LOAN')) {
-      if (parseFloat(this.state.ftTrnLmt) == 0 || parseFloat(this.state.dlyLmt) == 0) {
-        const trn_amount = parseFloat(this.state.amount);
-        const ac_balance = Math.abs(parseFloat(amount));
-        const m_balance = parseFloat(this.state.min_bal);
-        const remain_balance = ac_balance - trn_amount;
-        if (remain_balance < m_balance) {
-          if (this.state.min_bal_req === 'Y') {
-            this.setState({ isOkModalVisible: true });
-            this.props.setOkDialogText(
-              'This transaction cannot be done because the balance goes below the minimum balance.'
-            );
-          } else {
-            this.setState({ isYesNoModalVisible: true });
-            this.props.setOkDialogText(
-              'Due to this transaction balance goes below the minimum balance do you want to proceed ?.'
-            );
-          }
-        }
-        result = false;
-      }
+    if (parseFloat(this.state.ftTrnLmt) == 0 || parseFloat(this.state.dlyLmt) == 0) {
+      this.minBalanceCalculation()
     }
+
 
 
     if (parseFloat(this.state.amount) > parseFloat(this.state.ftTrnLmt)) {
@@ -475,16 +448,88 @@ class FundTransfer extends Component {
     }
 
 
-    if(this.props.userId === 'google' || this.props.userId === 'GOOGLE')
-    {
+    if (this.props.userId === 'google' || this.props.userId === 'GOOGLE') {
       this.setState({ isOkModalVisible: true, isFromGoogle: true });
       this.props.setOkDialogText('Transaction done successfully');
       result = false;
     }
 
-
-
     return result;
+  }
+
+  minBalanceCalculation() {
+
+    const transferable_amount = parseFloat(this.state.amount)
+    const ac_balance = parseFloat(this.state.availableBalance)
+    const m_bal = parseFloat(this.state.min_bal)
+
+    const remain_TransactionBalance = ac_balance - m_bal
+
+    console.log("trn_amount: ", transferable_amount)
+    console.log("ac_balance: ", ac_balance)
+    console.log("m_balance: ", m_bal)
+    console.log("m_balaremain_TransactionBalancence: ", remain_TransactionBalance)
+
+    console.log("this.state.min_bal_req: ", this.state.min_bal_req)
+
+    if (this.state.min_bal_req === 'N') {
+      if (ac_balance < transferable_amount) {
+        setTimeout(() => {
+          this.setState({ isOkModalVisible: true })
+        }, Platform.OS === 'ios' ? 500 : 0);
+        this.props.setOkDialogText('Amount must not exceed account balance ')
+      }
+      else if (remain_TransactionBalance < transferable_amount) {
+        this.setState({ isYesNoModalVisible: true })
+        this.props.setOkDialogText("Due to this transaction balance goes below the minimum balance do you want to proceed ?.")
+      }
+      else {
+
+
+        navigation.navigate(this, 'fundTransferWithOtherAcc', {
+          from: this.state.callFrom,
+          fromAcc: this.state.accType,
+          toAcc: this.state.benificiaryAcc,
+          remark: this.state.remark,
+          amount: this.state.amount,
+          fromAccAcmastCode: this.state.acmastcode,
+          beneficiaryAccAcmastCode: this.state.beneficiaryAccAcmastCode,
+          beneficiaryBranchCode: this.state.beneficiaryBranchCode,
+          fromAccName: this.state.fromAccName,
+          beneficiaryId: this.state.beneficiaryId,
+          accList: this.state.accounList,
+        });
+
+
+      }
+
+    }
+    else {
+      if (remain_TransactionBalance < transferable_amount) {
+        this.setState({ isOkModalVisible: true })
+        this.props.setOkDialogText("This transaction cannot be done because the balance goes below the minimum balance.")
+      }
+      else {
+        navigation.navigate(this, 'fundTransferWithOtherAcc', {
+          from: this.state.callFrom,
+          fromAcc: this.state.accType,
+          toAcc: this.state.benificiaryAcc,
+          remark: this.state.remark,
+          amount: this.state.amount,
+          fromAccAcmastCode: this.state.acmastcode,
+          beneficiaryAccAcmastCode: this.state.beneficiaryAccAcmastCode,
+          beneficiaryBranchCode: this.state.beneficiaryBranchCode,
+          fromAccName: this.state.fromAccName,
+          beneficiaryId: this.state.beneficiaryId,
+          accList: this.state.accounList,
+        });
+
+      }
+
+    }
+
+
+
   }
 
   GetBeneficiaryList = async (accType, acmastcode) => {
@@ -1003,7 +1048,7 @@ class FundTransfer extends Component {
                   cornerRadius={12}
                   style={styles.submitButtonCard}>
                   <TouchableOpacity
-                  style={[styles.submitButtonTouchable, { backgroundColor: this.props.PrimaryColor,}]}
+                    style={[styles.submitButtonTouchable, { backgroundColor: this.props.PrimaryColor, }]}
                     onPress={() => this.toCallSubmit()}>
                     <Text
                       style={styles.submitButtonText}>
@@ -1277,7 +1322,7 @@ const styles = {
     color: '#252525',
     fontFamily: strings.fontMedium,
     fontSize: 12,
-    marginBottom:10
+    marginBottom: 10
   },
   viewHistoryText:
   {

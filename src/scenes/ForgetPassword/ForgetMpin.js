@@ -183,13 +183,15 @@ class ForgetMpin extends Component {
       PARA1_TYP: 'STR',
       PARA1_VAL:
         '{"CALLFROM":"OTP_VERIFY","GMST_CODE":"' +
-        this.props.gmstCode +
+        Constants.GMST_CODE +
         '","OTP":"' +
         this.state.otpInput +
         '","BNK_CODE":"' +
         Constants.BankCode +
         '"}',
     };
+    console.log("Mpin change "+ APIUrlConstants.BASE_URL);
+    console.log("Mpin change "+ JSON.stringify(Body));
 
     sendData(
       this,
@@ -199,6 +201,7 @@ class ForgetMpin extends Component {
       JSON.stringify(Body),
       async (obj, response) => {
 
+        console.log("Mpin change "+ JSON.stringify(response))
         let res = response.SUCCESS;
 
         if (res === 'FALSE') {
@@ -209,7 +212,8 @@ class ForgetMpin extends Component {
             duration: Snackbar.LENGTH_SHORT,
             backgroundColor: 'red',
           });
-        } else if (res === 'TRUE') {
+        } else if (res === 'TRUE') 
+        {
           const Msg = response.RESULT;
 
           // ToastAndroid.show(Msg, ToastAndroid.SHORT)

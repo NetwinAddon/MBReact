@@ -315,9 +315,9 @@ class LoginTypeSelectScreen extends Component {
         if (isConnected) {
 
 
-            if(this.props.userId === 'google' || this.props.userId === 'GOOGLE')
+            if(this.props.userId === 'google' || this.props.userId === 'GOOGLE' || this.props.userId ==='Google')
             {
-                Constants.BankCode = 'GOOGLE'
+                Constants.BankCode = Constants.GoogleBankCode
                 APIUrlConstants.BASE_URL = APIUrlConstants.Google_Rest_Url
     
             }
@@ -428,9 +428,9 @@ class LoginTypeSelectScreen extends Component {
         if (isConnected) {
 
 
-            if(this.props.userId === 'google' || this.props.userId === 'GOOGLE')
+            if(this.props.userId === 'google' || this.props.userId === 'GOOGLE' || this.props.userId ==='Google')
             {
-                Constants.BankCode = 'GOOGLE'
+                Constants.BankCode = Constants.GoogleBankCode
                 APIUrlConstants.BASE_URL = APIUrlConstants.Google_Rest_Url
             }
 
@@ -535,9 +535,9 @@ class LoginTypeSelectScreen extends Component {
         const isConnected = await this.checkInternetConnection();
         if (isConnected) {
 
-            if(this.props.userId === 'google' || this.props.userId === 'GOOGLE')
+            if(this.props.userId === 'google' || this.props.userId === 'GOOGLE' || this.props.userId ==='Google')
             {
-                Constants.BankCode = 'GOOGLE'
+                Constants.BankCode = Constants.GoogleBankCode
                 APIUrlConstants.BASE_URL = APIUrlConstants.Google_Rest_Url
             }
 

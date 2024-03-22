@@ -5,7 +5,7 @@ class APIUrlConstants {
 
   static BASE_URL = "http://192.168.31.50:8071/SUREMOBMobAppRestAPI/AppRestAPI";  // Developer
   
-  // static BASE_URL = "https://uatmobapp.netwincbs.in:16359/SUREMOBMobAppRestAPI/AppRestAPI"; //UAT
+  // static BASE_URL = "https://uatmobapp.netwincbs.in:16359/SUREMOBMobAppRestAPI/AppRestAPI";  //UAT
 
   // static BASE_URL = "https://uatautomation.netwinui.in:13456/SIDHVINSP_MobAppRestAPI/AppRestAPI";  //QA Tester
 
@@ -14,10 +14,18 @@ class APIUrlConstants {
 
  // static BASE_URL = "https://mbreact.netwinui.in/SUREMOBMobAppRestAPI/AppRestAPI";  // Developer
 
-  // static BASE_URL = "https://uatmobapp.netwincbs.in:16359/SUREJSPMobAppRestAPI/AppRestAPI"; //UAT -Google
 
-  
-  static Google_Rest_Url = 'https://mobappuat.netwincbs.in:9275/GPLAYMobAppRestAPI/AppRestAPI';
+ // static BASE_URL = "https://uatmobapp.netwincbs.in:16359/SUREMOBMobAppRestAPI/AppRestAPI"; //SV
+
+  // static BASE_URL = "https://uatmobapp.netwincbs.in:16359/SUREJSPMobAppRestAPI/AppRestAPI"; //UAT
+
+
+  // static Google_Rest_Url = 'https://mobappuat.netwincbs.in:9275/GPLAYMobAppRestAPI/AppRestAPI'; 
+
+  static Google_Rest_Url = 'https://uatautomation.netwinui.in:13456/GOOGLE_MobAppRestAPI/AppRestAPI';  //QA Google
+
+  static TempLink = this.BASE_URL;
+  static TempBankcode = Constants.BankCode;
 
   static Headers = (dynamicOprCD) => {
     return {
